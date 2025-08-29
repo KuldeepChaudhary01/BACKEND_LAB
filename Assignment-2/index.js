@@ -4,25 +4,25 @@ const app = express();
 // Middleware to parse JSON request body
 app.use(express.json());
 
-// Sample in-memory data
+// Sample data
 let todos = [
   { id: 1, task: "Learn backend basics" },
   { id: 2, task: "Build first REST API" }
 ];
 
-// 👉 GET - Fetch all todos
+// GET request
 app.get("/todos", (req, res) => {
   res.json(todos);
 });
 
-// 👉 GET - Fetch a single todo by ID
+// GET request by ID for single data
 app.get("/todos/:id", (req, res) => {
   const todo = todos.find(t => t.id == req.params.id);
   if (!todo) return res.status(404).json({ error: "Todo not found" });
   res.json(todo);
 });
 
-// 👉 POST - Add a new todo
+// POST to add data
 app.post("/todos", (req, res) => {
   const newTodo = {
     id: todos.length + 1,
@@ -32,7 +32,7 @@ app.post("/todos", (req, res) => {
   res.status(201).json(newTodo);
 });
 
-// 👉 PUT - Update a todo
+// PUT to Update data
 app.put("/todos/:id", (req, res) => {
   const todo = todos.find(t => t.id == req.params.id);
   if (!todo) return res.status(404).json({ error: "Todo not found" });
@@ -41,7 +41,7 @@ app.put("/todos/:id", (req, res) => {
   res.json(todo);
 });
 
-// 👉 DELETE - Remove a todo
+// DELETE to delete the data or a todo
 app.delete("/todos/:id", (req, res) => {
   todos = todos.filter(t => t.id != req.params.id);
   res.status(204).send();
