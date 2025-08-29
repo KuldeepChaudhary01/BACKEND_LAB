@@ -23,10 +23,25 @@ app.get("/todos/:id", (req, res) => {
 });
 
 // POST to add data
+// app.post("/todos", (req, res) => {
+//   const newTodo = {
+//     id: todos.length + 1,
+//     task: req.body.task
+//   };
+//   todos.push(newTodo);
+//   res.status(201).json(newTodo);
+// });
+
+
+let nextId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1;
 app.post("/todos", (req, res) => {
+  const { task } = req.body;
+  if (!task || task.trim() === "") {
+    return res.status(400).json({ error: "Task is required" });
+  }
   const newTodo = {
-    id: todos.length + 1,
-    task: req.body.task
+    id: nextId++, // always unique, even if items are deleted
+    task: task.trim()
   };
   todos.push(newTodo);
   res.status(201).json(newTodo);
